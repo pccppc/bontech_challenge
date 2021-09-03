@@ -21,7 +21,7 @@ public class ServiceActivationDate{
     private LocalDate date;
     private Float startTime;
     private Float endTime;
-
+    private Integer maximumNumberOfUses;
     @ManyToOne(targetEntity = Service.class)
     @JoinColumn(columnDefinition = "service_id")
     private Service service;

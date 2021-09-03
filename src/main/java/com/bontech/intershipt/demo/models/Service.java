@@ -20,7 +20,6 @@ public class Service {
     private Long id;
     private String name;
     private Long fee;
-    private Integer maximumNumberOfUses;
     @OneToMany(targetEntity = ServiceActivationDate.class , fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "service")
     private List<ServiceActivationDate> serviceActivationDate ;
 }
