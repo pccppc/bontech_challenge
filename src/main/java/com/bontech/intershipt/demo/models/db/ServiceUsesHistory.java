@@ -1,6 +1,5 @@
-package com.bontech.intershipt.demo.models;
+package com.bontech.intershipt.demo.models.db;
 
-import com.bontech.intershipt.demo.models.usr.NormalUser;
 import lombok.*;
 
 import javax.persistence.*;

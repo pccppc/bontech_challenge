@@ -1,10 +1,10 @@
 package com.bontech.intershipt.demo.service.impl;
 
-import com.bontech.intershipt.demo.dto.*;
-import com.bontech.intershipt.demo.models.Service;
-import com.bontech.intershipt.demo.models.ServiceActivationDate;
-import com.bontech.intershipt.demo.models.ServiceUsesHistory;
-import com.bontech.intershipt.demo.models.usr.NormalUser;
+import com.bontech.intershipt.demo.models.dto.*;
+import com.bontech.intershipt.demo.models.db.Service;
+import com.bontech.intershipt.demo.models.db.ServiceActivationDate;
+import com.bontech.intershipt.demo.models.db.ServiceUsesHistory;
+import com.bontech.intershipt.demo.models.db.usr.NormalUser;
 import com.bontech.intershipt.demo.repositories.*;
 import com.bontech.intershipt.demo.service.base.AdminService;
 import lombok.extern.slf4j.Slf4j;

@@ -1,6 +1,6 @@
-package com.bontech.intershipt.demo.models;
+package com.bontech.intershipt.demo.models.db;
 
-import com.bontech.intershipt.demo.models.usr.NormalUser;
+import com.bontech.intershipt.demo.models.db.usr.NormalUser;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

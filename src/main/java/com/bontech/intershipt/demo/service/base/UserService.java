@@ -1,9 +1,9 @@
 package com.bontech.intershipt.demo.service.base;
 
 
-import com.bontech.intershipt.demo.dto.ServiceModel;
-import com.bontech.intershipt.demo.models.Service;
-import com.bontech.intershipt.demo.models.ServiceUsesHistory;
+import com.bontech.intershipt.demo.models.dto.ServiceModel;
+import com.bontech.intershipt.demo.models.db.Service;
+import com.bontech.intershipt.demo.models.db.ServiceUsesHistory;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package com.bontech.intershipt.demo.repositories;
 
-import com.bontech.intershipt.demo.models.ServiceActivationDate;
+import com.bontech.intershipt.demo.models.db.ServiceActivationDate;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

@@ -1,8 +1,8 @@
 package com.bontech.intershipt.demo.repositories;
 
-import com.bontech.intershipt.demo.models.NormalUserService;
-import com.bontech.intershipt.demo.models.NormalUserServiceId;
-import com.bontech.intershipt.demo.models.Service;
+import com.bontech.intershipt.demo.models.db.NormalUserService;
+import com.bontech.intershipt.demo.models.db.NormalUserServiceId;
+import com.bontech.intershipt.demo.models.db.Service;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

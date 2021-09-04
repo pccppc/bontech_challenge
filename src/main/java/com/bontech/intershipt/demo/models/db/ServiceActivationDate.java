@@ -1,4 +1,4 @@
-package com.bontech.intershipt.demo.models;
+package com.bontech.intershipt.demo.models.db;
 
 import lombok.*;
 

@@ -1,6 +1,6 @@
 package com.bontech.intershipt.demo.repositories;
 
-import com.bontech.intershipt.demo.models.ServiceUsesHistory;
+import com.bontech.intershipt.demo.models.db.ServiceUsesHistory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
