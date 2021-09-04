@@ -6,6 +6,7 @@ import com.bontech.intershipt.demo.models.ServiceUsesHistory;
 import com.bontech.intershipt.demo.models.usr.NormalUser;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface AdminService {
@@ -39,7 +40,7 @@ public interface AdminService {
      * @param id for search user
      * @return normalUser after find it from database
      */
-    public NormalUser findUserById(Long id);
+    public Optional<NormalUser> findUserById(Long id);
 
 
 
@@ -73,7 +74,7 @@ public interface AdminService {
      * @param id for search service
      * @return Service after find it from database
      */
-    public Service findServiceById(Long id);
+    public Optional<Service> findServiceById(Long id);
 
     /**
      * granting a service for user and save relation into NormalUserService table in db
