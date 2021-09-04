@@ -33,4 +33,6 @@ public interface NormalUserRepository extends JpaRepository<NormalUser,Long> {
     void setBalance(Long amount, Long userId);
 
     boolean existsById(Long id);
+
+    boolean existsByUsername(String username);
 }

@@ -1,5 +1,6 @@
 package com.bontech.intershipt.demo.models.db;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,5 +20,6 @@ public class Service {
     private String name;
     private Long fee;
     @OneToMany(targetEntity = ServiceActivationDate.class , fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "service")
+    @JsonIgnore
     private List<ServiceActivationDate> serviceActivationDate ;
 }
