@@ -31,4 +31,6 @@ public interface NormalUserRepository extends JpaRepository<NormalUser,Long> {
     @Modifying
     @Query(value = "update NormalUser u set u.balance =  ?1 where u.id = ?2")
     void setBalance(Long amount, Long userId);
+
+    boolean existsById(Long id);
 }

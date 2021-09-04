@@ -15,4 +15,6 @@ public interface ServiceRepository extends JpaRepository<Service,Long> {
     @Query(value = "update Service s set s.name = ?1 ,s.fee = ?2 where s.id = ?3")
     void updateServiceById(String name,Long fee,Long id);
 
+    boolean existsById(Long id);
+
 }
