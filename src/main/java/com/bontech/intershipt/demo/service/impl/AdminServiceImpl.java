@@ -32,11 +32,14 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public NormalUser saveUser(UserModel user) {
-        NormalUser normalUser = NormalUser.builder().username(user.getUsername()).password(user.getPassword())
-                .balance(user.getBalance()).build();
-        NormalUser save = userRepository.save(normalUser);
-        log.info("Adding user with id : " + save.getId());
-        return normalUser;
+        if (!userRepository.existsByUsername(user.getUsername())) {
+            NormalUser normalUser = NormalUser.builder().username(user.getUsername()).password(user.getPassword())
+                    .balance(user.getBalance()).build();
+            NormalUser save = userRepository.save(normalUser);
+            log.info("Adding user with id : " + save.getId());
+            return normalUser;
+        }
+        else throw new RuntimeException("this username already exists");
     }
 
     @Override
