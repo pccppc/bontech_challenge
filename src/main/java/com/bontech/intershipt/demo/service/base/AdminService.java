@@ -5,7 +5,10 @@ import com.bontech.intershipt.demo.dto.ServiceActivationDateModel;
 import com.bontech.intershipt.demo.dto.ServiceModel;
 import com.bontech.intershipt.demo.dto.UserModel;
 import com.bontech.intershipt.demo.models.Service;
+import com.bontech.intershipt.demo.models.ServiceUsesHistory;
 import com.bontech.intershipt.demo.models.usr.NormalUser;
+
+import java.util.List;
 
 
 public interface AdminService {
@@ -120,5 +123,11 @@ public interface AdminService {
      */
     public void setUserBalance(Long amount, Long userId);
 
+
+    /**
+     * search in ServiceUsesHistory table and report them
+     * @return list of serviceUsageHistory
+     */
+    public List<ServiceUsesHistory> getReportOfServiceUsage();
 
 }

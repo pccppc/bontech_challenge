@@ -3,6 +3,7 @@ package com.bontech.intershipt.demo.service.base;
 
 import com.bontech.intershipt.demo.dto.ServiceModel;
 import com.bontech.intershipt.demo.models.Service;
+import com.bontech.intershipt.demo.models.ServiceUsesHistory;
 
 import java.util.List;
 
@@ -27,4 +28,14 @@ public interface UserService {
      * @return ServiceModel
      */
     public ServiceModel useService(Long service_id,Long user_id);
+
+
+    /**
+     * search in ServiceUsesHistory table and report service history of user
+     * @param userId search history with userId
+     * @return list of serviceUsageHistory
+     */
+    public List<ServiceUsesHistory> getReportOfServiceUsage(Long userId);
+
+
 }
