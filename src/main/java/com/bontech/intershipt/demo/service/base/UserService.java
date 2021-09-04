@@ -11,15 +11,17 @@ public interface UserService {
 
     /**
      * find granted service for a user
+     * @param userId search a user
      * @return list of service
      */
-    public List<Service> findGrantingService();
+    public List<Service> findGrantingService(Long userId);
 
     /**
      * find active user service for use
+     * @param userId search a user
      * @return list of service
      */
-    public List<Service> findActivateService();
+    public List<Service> findActivateService(Long userId);
 
     /**
      * use a service and save info into database if service activated and granted for user

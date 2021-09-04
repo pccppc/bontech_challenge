@@ -9,12 +9,12 @@ import java.util.List;
 
 public class UserServiceImpl implements UserService {
     @Override
-    public List<Service> findGrantingService() {
+    public List<Service> findGrantingService(Long userId) {
         return null;
     }
 
     @Override
-    public List<Service> findActivateService() {
+    public List<Service> findActivateService(Long userId) {
         return null;
     }
 
