@@ -1,9 +1,6 @@
 package com.bontech.intershipt.demo.service.base;
 
-import com.bontech.intershipt.demo.dto.DisableServiceDateModel;
-import com.bontech.intershipt.demo.dto.ServiceActivationDateModel;
-import com.bontech.intershipt.demo.dto.ServiceModel;
-import com.bontech.intershipt.demo.dto.UserModel;
+import com.bontech.intershipt.demo.dto.*;
 import com.bontech.intershipt.demo.models.Service;
 import com.bontech.intershipt.demo.models.ServiceUsesHistory;
 import com.bontech.intershipt.demo.models.usr.NormalUser;
@@ -27,7 +24,7 @@ public interface AdminService {
      * @param userModel include new information about user
      * @param id for search user in database
      */
-    public void updateNormalUserById(UserModel userModel, Long id);
+    public void updateNormalUserById(UserUpdateModel userModel, Long id);
 
 
     /**
