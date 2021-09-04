@@ -106,27 +106,29 @@ public class AdminServiceImpl implements AdminService {
     public ServiceActivationDateModel activateService(Long serviceId, ServiceActivationDateModel sadm) {
         //I don't validate date and time
         Optional<Service> byId = serviceRepository.findById(serviceId);
-        if (byId.isPresent()){
-            Service service = byId.get();
-            ServiceActivationDate serviceActivationDate = ServiceActivationDate.builder()
-                    .isActive(true)
-                    .maximumNumberOfUses(sadm.getMaximumNumberOfUses())
-                    .date(sadm.getDate())
-                    .startTime(sadm.getStartTime())
-                    .endTime(sadm.getEndTime())
-                    .service(service).build();
+        if (sadm.getEndTime() - sadm.getStartTime() <= 12)
+            if (byId.isPresent()){
+                Service service = byId.get();
+                ServiceActivationDate serviceActivationDate = ServiceActivationDate.builder()
+                        .isActive(true)
+                        .maximumNumberOfUses(sadm.getMaximumNumberOfUses())
+                        .date(sadm.getDate())
+                        .startTime(sadm.getStartTime())
+                        .endTime(sadm.getEndTime())
+                        .service(service).build();
 
-            activationDateRepository.save(serviceActivationDate);
-            log.info("activate service with name : " + service.getName() + ", in " + sadm.getDate() +
-                    " ," + sadm.getStartTime() + ":" + sadm.getEndTime());
+                activationDateRepository.save(serviceActivationDate);
+                log.info("activate service with name : " + service.getName() + ", in " + sadm.getDate() +
+                        " ," + sadm.getStartTime() + ":" + sadm.getEndTime());
 
-            return ServiceActivationDateModel.builder()
-                    .endTime(sadm.getEndTime())
-                    .startTime(sadm.getStartTime())
-                    .date(sadm.getDate())
-                    .maximumNumberOfUses(sadm.getMaximumNumberOfUses()).build();
-        }
-        else throw new RuntimeException("service not found");
+                return ServiceActivationDateModel.builder()
+                        .endTime(sadm.getEndTime())
+                        .startTime(sadm.getStartTime())
+                        .date(sadm.getDate())
+                        .maximumNumberOfUses(sadm.getMaximumNumberOfUses()).build();
+            }
+            else throw new RuntimeException("service not found");
+        else throw new RuntimeException("maximum activate timespan is 12 hour");
     }
 
     @Override
