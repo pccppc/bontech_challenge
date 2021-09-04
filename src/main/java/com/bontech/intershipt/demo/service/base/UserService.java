@@ -21,7 +21,7 @@ public interface UserService {
      * @param userId search a user
      * @return list of service
      */
-    public List<Service> findActivateService(Long userId);
+    public List<Service> findActiveService(Long userId);
 
     /**
      * use a service and save info into database if service activated and granted for user
