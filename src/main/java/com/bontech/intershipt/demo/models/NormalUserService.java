@@ -20,11 +20,11 @@ public class NormalUserService {
     private NormalUserServiceId id;
 
     @ManyToOne
-    @MapsId("serviceId")
+    @MapsId("service_id")
     private Service service;
 
     @ManyToOne
-    @MapsId("userId")
+    @MapsId("user_id")
     private NormalUser user;
 
     private Integer numberOfUsage;

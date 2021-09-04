@@ -15,7 +15,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
-@IdClass(CompositeKey.class)
+@IdClass(ServiceUsesHistoryKey.class)
 public class ServiceUsesHistory {
 
     @Id
@@ -25,11 +25,4 @@ public class ServiceUsesHistory {
     @Id
     private Date date;
 
-}
-
-
-class CompositeKey implements Serializable{
-    private Long userId;
-    private Long serviceId;
-    private Date date;
 }

@@ -13,6 +13,6 @@ import java.io.Serializable;
 @EqualsAndHashCode
 public class NormalUserServiceId implements Serializable {
 
-    private Long serviceId;
-    private Long userId;
+    private Long service_id;
+    private Long user_id;
 }
