@@ -37,7 +37,8 @@ public class UserServiceImpl implements UserService {
     public List<Service> findGrantingService(Long userId) {
         if (userRepository.existsById(userId)){
             log.info("fetch all granting service for user with id : " + userId);
-            return userServiceRepository.findAllByUserId(userId);
+            List<Long> allByUserId = userServiceRepository.findAllByUserId(userId);
+            return serviceRepository.findAllById(allByUserId);
         }
         else throw new RuntimeException("user not found");
     }

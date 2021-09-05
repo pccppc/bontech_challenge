@@ -27,6 +27,6 @@ public interface NormalUserServiceRepository extends JpaRepository<NormalUserSer
     @Query(nativeQuery = true, value = "delete from  user_service as nus where nus.user_id = ?1 , nus.service_id = ?2 ")
     void revokeServiceForUser(Long userId,Long serviceId);
 
-    @Query(nativeQuery = true, value = "select * from  user_service as nus where nus.user_id = ?1")
-    List<Service> findAllByUserId(Long userId);
+    @Query(nativeQuery = true, value = "select nus.service_id from  user_service as nus where nus.user_id = ?1")
+    List<Long> findAllByUserId(Long userId);
 }
