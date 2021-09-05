@@ -77,7 +77,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<ServiceUsesHistory> getReportOfServiceUsage(Long userId) {
-        log.info("fetching all service usage history for user with id : " + userId);
-        return usesHistoryRepository.findAllByUserId(userId);
+        if (userRepository.existsById(userId)) {
+            log.info("fetching all service usage history for user with id : " + userId);
+            return usesHistoryRepository.findAllByUserId(userId);
+        }else throw new RuntimeException("user not found");
     }
 }
