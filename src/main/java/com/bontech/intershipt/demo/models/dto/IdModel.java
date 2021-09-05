@@ -7,5 +7,5 @@ import lombok.*;
 @Getter
 @Setter
 public class IdModel {
-    private final Long id;
+    private Long id;
 }
