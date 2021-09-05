@@ -47,7 +47,7 @@ public class AdminController {
                     .ok(new SuccessBody<>(Map.of("code","200","message","user was updated successfully")));
         }catch (RuntimeException e){
             return ResponseEntity
-                    .status(404).body(new FailureBody<>(Map.of("code","404","message","user not found")));
+                    .status(404).body(new FailureBody<>(Map.of("code","404","message",e.getMessage())));
         }
     }
 
@@ -59,7 +59,7 @@ public class AdminController {
                     .ok(new SuccessBody<>(Map.of("code","200","message","user successfully removed")));
         }catch (RuntimeException e){
             return ResponseEntity
-                    .status(404).body(new FailureBody<>(Map.of("code","404","message","user not found")));
+                    .status(404).body(new FailureBody<>(Map.of("code","404","message",e.getMessage())));
         }
     }
 
@@ -89,7 +89,7 @@ public class AdminController {
                     .ok(new SuccessBody<>(Map.of("code","200","message","service was updated successfully")));
         }catch (RuntimeException e){
             return ResponseEntity
-                    .status(404).body(new FailureBody<>(Map.of("code","404","message","service not found")));
+                    .status(404).body(new FailureBody<>(Map.of("code","404","message",e.getMessage())));
         }
     }
 
@@ -101,7 +101,7 @@ public class AdminController {
                     .ok(new SuccessBody<>(Map.of("code","200","message","service successfully removed")));
         }catch (RuntimeException e){
             return ResponseEntity
-                    .status(404).body(new FailureBody<>(Map.of("code","404","message","service not found")));
+                    .status(404).body(new FailureBody<>(Map.of("code","404","message",e.getMessage())));
         }
     }
 
@@ -113,5 +113,6 @@ public class AdminController {
                 .orElseGet(() -> ResponseEntity.status(404)
                         .body(Map.of("code", "404", "message", "service not found")));
     }
+
 
 }
