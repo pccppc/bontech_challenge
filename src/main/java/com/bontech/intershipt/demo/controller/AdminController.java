@@ -6,6 +6,7 @@ import com.bontech.intershipt.demo.models.dto.*;
 import com.bontech.intershipt.demo.models.response.FailureBody;
 import com.bontech.intershipt.demo.models.response.SuccessBody;
 import com.bontech.intershipt.demo.service.base.AdminService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -130,5 +131,51 @@ public class AdminController {
         }
     }
 
+    @PutMapping(value = "/activateService")
+    public ResponseEntity<Object> activeService(@RequestBody ServiceActivationDateModel sadm,@RequestParam Long serviceId){
+        try{
+            ServiceActivationDateModel model = adminService.activateService(serviceId, sadm);
+            return ResponseEntity.ok(new SuccessBody<>(Map.of("code","200","ServiceActivationDateModel",model)));
+        }catch (RuntimeException e){
+            return ResponseEntity.status(404).body(new FailureBody<>(Map.of("code","400","message",e.getMessage())));
+        }
+    }
 
+    @PutMapping(value = "/disableService")
+    public ResponseEntity<Object> disableService(@RequestBody DisableServiceDateModel dsdm,@RequestParam Long serviceId){
+        try{
+            adminService.disableService(serviceId,dsdm);
+            return ResponseEntity.ok(new SuccessBody<>(Map.of("code","200","message","service successfully disabled")));
+        }catch (RuntimeException e){
+            return ResponseEntity.status(404).body(new FailureBody<>(Map.of("code","400","message",e.getMessage())));
+        }
+    }
+
+
+    @PutMapping(value = "/increaseUserBalance")
+    public ResponseEntity<Object> increaseUserBalance(@RequestBody UpdateUserBalanceModel uubm){
+        try {
+            adminService.increaseUserBalance(uubm.getAmount(),uubm.getUserId());
+            return ResponseEntity
+                    .ok(new SuccessBody<>(Map.of("code","200","message","user balance increased successfully")));
+        }catch (RuntimeException e){
+            return ResponseEntity.status(404).body(new FailureBody<>(Map.of("code","400","message",e.getMessage())));
+        }
+    }
+
+    @PutMapping(value = "/updateUserBalance")
+    public ResponseEntity<Object> updateUserBalance(@RequestBody UpdateUserBalanceModel uubm){
+        try {
+            adminService.setUserBalance(uubm.getAmount(),uubm.getUserId());
+            return ResponseEntity.ok(Map.of("code","200","message","user balance was updated successfully"));
+        }catch (RuntimeException e){
+            return ResponseEntity.status(404).body(new FailureBody<>(Map.of("code","404","message",e.getMessage())));
+        }
+    }
+
+    @GetMapping(value = "/serviceUsageHistory")
+    public ResponseEntity<Object> getReportOfServiceUsage(){
+        return ResponseEntity
+                .ok(new SuccessBody<>(Map.of("code","200","serviceUsageHistories",adminService.getReportOfServiceUsage())));
+    }
 }
