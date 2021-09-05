@@ -14,6 +14,6 @@ public interface ServiceActivationDateRepository extends JpaRepository<ServiceAc
 
     Optional<ServiceActivationDate> findByServiceIdAndDateAndStartTimeAndEndTime(Long ServiceId, LocalDate date, Float startTime , Float endTime);
 
-    @Query(nativeQuery = true , value = "select service_id from Service_activation_date where date = ?1 and startTime <= ?2 and endTime >= ?2 and isActive = true")
+    @Query(nativeQuery = true , value = "select service_id from service_activation_date where date = ?1 and start_time <= ?2 and end_time >= ?2 and is_active = true")
     List<Long> findAllIdByDateAndTimeAndIsActiveTrue(LocalDate date , float hour);
 }
