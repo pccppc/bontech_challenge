@@ -19,7 +19,7 @@ public interface ServiceActivationDateRepository extends JpaRepository<ServiceAc
     @Query(nativeQuery = true , value = "select service_id from service_activation_date where date = ?1 and start_time <= ?2 and end_time >= ?2 and is_active = true")
     List<Long> findAllIdByDateAndTimeAndIsActiveTrue(LocalDate date , float hour);
 
-    boolean existsByDate(LocalDate date);
+    boolean existsByDateAndServiceId(LocalDate date,Long serviceId);
 
     @Query(nativeQuery = true, value = "update service_activation_date as sad set sad.is_active = ?1 where sad.service_id = ?2")
     @Transactional

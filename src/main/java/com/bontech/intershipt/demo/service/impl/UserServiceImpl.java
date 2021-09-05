@@ -65,30 +65,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional //for keep transaction because i use lazy initialization
+    @Transactional //for keep transaction because I use lazy initialization
     public ServiceModel useService(Long service_id, Long user_id) {
         if (userRepository.existsById(user_id) && serviceRepository.existsById(service_id)){
             List<Service> activeService = findActiveService(user_id);
             for (Service service : activeService){
                 if (service.getId().equals(service_id)){
-                    Optional<ServiceActivationDate> first = service.getServiceActivationDate().stream().filter(a -> { //for check user how much time used this service
-                        LocalTime time = LocalTime.now();
-                        float hour = (float) time.getHour() + (float) time.getMinute() / 60 + (float) time.getSecond() / 3600;
-                        return Objects.equals(a.getDate(), LocalDate.now()) && a.getStartTime() <= hour && a.getEndTime() >= hour;
-                    }).findAny();
-                    int number = first.isPresent() ? first.get().getMaximumNumberOfUses() : 0;
+                    Optional<ServiceActivationDate> activationForNow = getServiceActivationDateForNow(service);
+                    int number = activationForNow.isPresent() ? activationForNow.get().getMaximumNumberOfUses() : 0;
                     if (userServiceRepository.getNumberOfUsageByUserIdAndServiceId(user_id,service_id) < number) {
                         NormalUser normalUser = userRepository.findById(user_id).get();
-                        if (normalUser.getBalance() >= service.getFee()) {
-                            normalUser.setBalance(normalUser.getBalance() - service.getFee());
-                            ServiceUsesHistory serviceUsesHistory = ServiceUsesHistory.builder()
-                                    .serviceId(service_id).date(new Date()).userId(user_id).build();
-                            ServiceUsesHistory save = usesHistoryRepository.save(serviceUsesHistory);
-                            userServiceRepository.increaseNumberOfUsage(user_id, service_id);
-                            log.info("user with id : " + user_id + " use service with id : " + service_id);
-                            userRepository.save(normalUser);
-                            return ServiceModel.builder().fee(service.getFee()).name(service.getName()).build();
-                        }else throw new RuntimeException("user does not have enough balance for using this service");
+                        return saveUseServiceInfo(normalUser,service);
                     }
                     else throw new RuntimeException("user cant used this service more than maximum in timespan");
                 }
@@ -96,6 +83,28 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("probably service does not active for this user");
         }else throw new RuntimeException("user or service not found");
     }
+
+    public ServiceModel saveUseServiceInfo(NormalUser user ,Service service){
+        if (user.getBalance() >= service.getFee()) {
+            user.setBalance(user.getBalance() - service.getFee());
+            ServiceUsesHistory serviceUsesHistory = ServiceUsesHistory.builder()
+                    .serviceId(service.getId()).date(new Date()).userId(user.getId()).build();
+            ServiceUsesHistory save = usesHistoryRepository.save(serviceUsesHistory);
+            userServiceRepository.increaseNumberOfUsage(user.getId(), service.getId());
+            log.info("user with id : " + user.getId() + " use service with id : " + service.getId());
+            userRepository.save(user);
+            return ServiceModel.builder().fee(service.getFee()).name(service.getName()).build();
+        }else throw new RuntimeException("user does not have enough balance for using this service");
+    }
+
+    public Optional<ServiceActivationDate> getServiceActivationDateForNow(Service service){
+        return service.getServiceActivationDate().stream().filter(a -> {
+            LocalTime time = LocalTime.now();
+            float hour = (float) time.getHour() + (float) time.getMinute() / 60 + (float) time.getSecond() / 3600;
+            return Objects.equals(a.getDate(), LocalDate.now()) && a.getStartTime() <= hour && a.getEndTime() >= hour;
+        }).findAny();
+    }
+
 
     @Override
     public List<ServiceUsesHistory> getReportOfServiceUsage(Long userId) {

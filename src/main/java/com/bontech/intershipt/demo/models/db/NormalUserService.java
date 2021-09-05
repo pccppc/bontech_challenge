@@ -27,5 +27,5 @@ public class NormalUserService {
     @MapsId("user_id")
     private NormalUser user;
 
-    private Integer numberOfUsage;
+    private Integer numberOfUsage = 0;
 }

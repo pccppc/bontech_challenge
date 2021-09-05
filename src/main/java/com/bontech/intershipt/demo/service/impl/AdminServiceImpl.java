@@ -1,5 +1,6 @@
 package com.bontech.intershipt.demo.service.impl;
 
+import com.bontech.intershipt.demo.models.db.NormalUserServiceId;
 import com.bontech.intershipt.demo.models.dto.*;
 import com.bontech.intershipt.demo.models.db.Service;
 import com.bontech.intershipt.demo.models.db.ServiceActivationDate;
@@ -100,8 +101,10 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void grantingServiceForUser(Long serviceId, Long userId) {
         if (userRepository.existsById(userId) && serviceRepository.existsById(serviceId)){
-            userServiceRepository.grantServiceForUser(userId,serviceId);
-            log.info("service with id : " + serviceId + " granted for user with id : " + userId );
+            if (!userServiceRepository.existsById(new NormalUserServiceId(serviceId,userId))) {
+                userServiceRepository.grantServiceForUser(userId, serviceId);
+                log.info("service with id : " + serviceId + " granted for user with id : " + userId);
+            }else throw new RuntimeException("service already granted for this user");
         }else throw new RuntimeException("user or service not found");
     }
 
@@ -120,7 +123,7 @@ public class AdminServiceImpl implements AdminService {
         if (sadm.getEndTime() - sadm.getStartTime() <= 12)
             if (byId.isPresent()){
                 Service service = byId.get();
-                boolean exists = activationDateRepository.existsByDate(sadm.getDate());
+                boolean exists = activationDateRepository.existsByDateAndServiceId(sadm.getDate(),service.getId());
                 if (!exists) {
                     ServiceActivationDate serviceActivationDate = ServiceActivationDate.builder()
                             .isActive(true)
