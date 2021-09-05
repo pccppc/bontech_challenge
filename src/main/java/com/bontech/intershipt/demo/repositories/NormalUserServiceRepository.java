@@ -29,4 +29,12 @@ public interface NormalUserServiceRepository extends JpaRepository<NormalUserSer
 
     @Query(nativeQuery = true, value = "select nus.service_id from  user_service as nus where nus.user_id = ?1")
     List<Long> findAllByUserId(Long userId);
+
+    @Transactional
+    @Modifying
+    @Query(nativeQuery = true, value = "update user_service as nus set nus.number_of_usage = nus.number_of_usage + 1 where nus.user_id = ?1 and nus.service_id = ?2")
+    void increaseNumberOfUsage(Long userId,Long ServiceId);
+
+    @Query(nativeQuery = true, value = "select nus.number_of_usage from user_service as nus where nus.user_id = ?1 and nus.service_id = ?2 ")
+    Long getNumberOfUsageByUserIdAndServiceId(Long userId,Long serviceId);
 }

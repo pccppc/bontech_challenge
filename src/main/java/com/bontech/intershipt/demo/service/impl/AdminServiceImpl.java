@@ -120,26 +120,30 @@ public class AdminServiceImpl implements AdminService {
         if (sadm.getEndTime() - sadm.getStartTime() <= 12)
             if (byId.isPresent()){
                 Service service = byId.get();
-                ServiceActivationDate serviceActivationDate = ServiceActivationDate.builder()
-                        .isActive(true)
-                        .maximumNumberOfUses(sadm.getMaximumNumberOfUses())
-                        .date(sadm.getDate())
-                        .startTime(sadm.getStartTime())
-                        .endTime(sadm.getEndTime())
-                        .service(service).build();
-
-                activationDateRepository.save(serviceActivationDate);
-                log.info("activate service with name : " + service.getName() + ", in " + sadm.getDate() +
-                        " ," + sadm.getStartTime() + ":" + sadm.getEndTime());
-
-                return ServiceActivationDateModel.builder()
-                        .endTime(sadm.getEndTime())
-                        .startTime(sadm.getStartTime())
-                        .date(sadm.getDate())
-                        .maximumNumberOfUses(sadm.getMaximumNumberOfUses()).build();
+                boolean exists = activationDateRepository.existsByDate(sadm.getDate());
+                if (!exists) {
+                    ServiceActivationDate serviceActivationDate = ServiceActivationDate.builder()
+                            .isActive(true)
+                            .maximumNumberOfUses(sadm.getMaximumNumberOfUses())
+                            .date(sadm.getDate())
+                            .startTime(sadm.getStartTime())
+                            .endTime(sadm.getEndTime())
+                            .service(service).build();
+                    activationDateRepository.save(serviceActivationDate);
+                    log.info("activate service with name : " + service.getName() + ", in " + sadm.getDate() +
+                            " ," + sadm.getStartTime() + ":" + sadm.getEndTime());
+                }else if (activationDateRepository.existsByIsActiveFalse()){
+                    activationDateRepository.updateIsActive(true,serviceId);
+                }
+                else throw new RuntimeException("this service already is active");
             }
             else throw new RuntimeException("service not found");
         else throw new RuntimeException("maximum activate timespan is 12 hour");
+        return ServiceActivationDateModel.builder()
+                .endTime(sadm.getEndTime())
+                .startTime(sadm.getStartTime())
+                .date(sadm.getDate())
+                .maximumNumberOfUses(sadm.getMaximumNumberOfUses()).build();
     }
 
     @Override
