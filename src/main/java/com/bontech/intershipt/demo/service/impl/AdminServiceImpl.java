@@ -44,16 +44,20 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void updateNormalUserById(UserUpdateModel userModel, Long id) {
-        userRepository.updateUserById(userModel.getUsername(),userModel.getPassword(),id);
-        log.info("update user with id : " + id);
+        if (userRepository.existsById(id)) {
+            userRepository.updateUserById(userModel.getUsername(), userModel.getPassword(), id);
+            log.info("update user with id : " + id);
+        }else throw new RuntimeException("user not found");
     }
 
     @Override
     public void deleteUserById(Long id) {
-        log.info("Deleting user services with userID : " + id);
-        userServiceRepository.deleteAllByUserId(id);
-        userRepository.deleteNormalUserById(id);
-        log.info("delete user with id :" + id);
+        if (userRepository.existsById(id)) {
+            log.info("Deleting user services with userID : " + id);
+            userServiceRepository.deleteAllByUserId(id);
+            userRepository.deleteNormalUserById(id);
+            log.info("delete user with id :" + id);
+        }else throw new RuntimeException("user not found");
     }
 
     @Override
@@ -71,16 +75,20 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void updateServiceById(ServiceModel serviceModel, Long id) {
-        serviceRepository.updateServiceById(serviceModel.getName(),serviceModel.getFee(),id);
-        log.info("update service with id : " + id);
+        if (serviceRepository.existsById(id)) {
+            serviceRepository.updateServiceById(serviceModel.getName(), serviceModel.getFee(), id);
+            log.info("update service with id : " + id);
+        }else throw new RuntimeException("service not found");
     }
 
     @Override
     public void deleteServiceById(Long id) {
-        log.info("deleting service from NormalUserService table with id : " + id);
-        userServiceRepository.deleteAllByUserId(id);
-        log.info("delete service with id : " + id);
-        serviceRepository.deleteById(id);
+        if (serviceRepository.existsById(id)) {
+            log.info("deleting service from NormalUserService table with id : " + id);
+            userServiceRepository.deleteAllByUserId(id);
+            log.info("delete service with id : " + id);
+            serviceRepository.deleteById(id);
+        }else throw new RuntimeException("service not found");
     }
 
     @Override
