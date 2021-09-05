@@ -14,19 +14,19 @@ public interface NormalUserServiceRepository extends JpaRepository<NormalUserSer
 
     @Transactional
     @Modifying
-    @Query(nativeQuery = true,value = "delete from NormalUserService as nus where nus.user_id = ?1")
+    @Query(nativeQuery = true,value = "delete from  user_service as nus where nus.user_id = ?1")
     void deleteAllByUserId(Long userId);
 
     @Transactional
     @Modifying
-    @Query(nativeQuery = true, value = "insert into NormalUserSrevice(user_id,service_id) values(?1,?2)")
+    @Query(nativeQuery = true, value = "insert into user_service (user_id,service_id) values(?1,?2)")
     void grantServiceForUser(Long userId,Long serviceId);
 
     @Transactional
     @Modifying
-    @Query(nativeQuery = true, value = "delete from NormalUserSrevice as nus where nus.user_id = ?1 , nus.service_id = ?2 ")
+    @Query(nativeQuery = true, value = "delete from  user_service as nus where nus.user_id = ?1 , nus.service_id = ?2 ")
     void revokeServiceForUser(Long userId,Long serviceId);
 
-    @Query(nativeQuery = true, value = "select * from NormalUserService as nus where nus.user_id = ?1")
+    @Query(nativeQuery = true, value = "select * from  user_service as nus where nus.user_id = ?1")
     List<Service> findAllByUserId(Long userId);
 }
