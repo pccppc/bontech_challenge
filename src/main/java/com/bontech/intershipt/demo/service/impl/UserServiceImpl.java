@@ -1,6 +1,7 @@
 package com.bontech.intershipt.demo.service.impl;
 
 import com.bontech.intershipt.demo.models.db.ServiceActivationDate;
+import com.bontech.intershipt.demo.models.db.usr.NormalUser;
 import com.bontech.intershipt.demo.models.dto.ServiceModel;
 import com.bontech.intershipt.demo.models.db.Service;
 import com.bontech.intershipt.demo.models.db.ServiceUsesHistory;
@@ -77,12 +78,17 @@ public class UserServiceImpl implements UserService {
                     }).findAny();
                     int number = first.isPresent() ? first.get().getMaximumNumberOfUses() : 0;
                     if (userServiceRepository.getNumberOfUsageByUserIdAndServiceId(user_id,service_id) < number) {
-                        ServiceUsesHistory serviceUsesHistory = ServiceUsesHistory.builder()
-                                .serviceId(service_id).date(new Date()).userId(user_id).build();
-                        ServiceUsesHistory save = usesHistoryRepository.save(serviceUsesHistory);
-                        userServiceRepository.increaseNumberOfUsage(user_id, service_id);
-                        log.info("user with id : " + user_id + " use service with id : " + service_id);
-                        return ServiceModel.builder().fee(service.getFee()).name(service.getName()).build();
+                        NormalUser normalUser = userRepository.findById(user_id).get();
+                        if (normalUser.getBalance() >= service.getFee()) {
+                            normalUser.setBalance(normalUser.getBalance() - service.getFee());
+                            ServiceUsesHistory serviceUsesHistory = ServiceUsesHistory.builder()
+                                    .serviceId(service_id).date(new Date()).userId(user_id).build();
+                            ServiceUsesHistory save = usesHistoryRepository.save(serviceUsesHistory);
+                            userServiceRepository.increaseNumberOfUsage(user_id, service_id);
+                            log.info("user with id : " + user_id + " use service with id : " + service_id);
+                            userRepository.save(normalUser);
+                            return ServiceModel.builder().fee(service.getFee()).name(service.getName()).build();
+                        }else throw new RuntimeException("user does not have enough balance for using this service");
                     }
                     else throw new RuntimeException("user cant used this service more than maximum in timespan");
                 }
