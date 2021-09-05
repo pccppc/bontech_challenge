@@ -163,14 +163,18 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void increaseUserBalance(Long amount, Long userId) {
-        userRepository.increaseBalance(amount,userId);
-        log.info("balance was increased for user with id : " + userId + ", amount : " + amount);
+        if (userRepository.existsById(userId)) {
+            userRepository.increaseBalance(amount,userId);
+            log.info("balance was increased for user with id : " + userId + ", amount : " + amount);
+        }else throw new RuntimeException("user not found");
     }
 
     @Override
     public void setUserBalance(Long amount, Long userId) {
-        userRepository.setBalance(amount,userId);
-        log.info("balance was updated for user with id : " + userId + ", amount : " + amount);
+        if (userRepository.existsById(userId)) {
+            userRepository.setBalance(amount,userId);
+            log.info("balance was updated for user with id : " + userId + ", amount : " + amount);
+        }else throw new RuntimeException("user not found");
     }
 
     @Override
