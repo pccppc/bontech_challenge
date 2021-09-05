@@ -66,7 +66,7 @@ public class AdminController {
     public ResponseEntity<Object> getUser(@PathVariable Long id) {
         Optional<NormalUser> userById = adminService.findUserById(id);
         if (userById.isPresent()) {
-            return ResponseEntity.ok(new SuccessBody<>(Map.of("code", "200", "user", userById.get())));
+            return ResponseEntity.ok(new SuccessBody<>(userById.get()));
         } else
             return ResponseEntity.status(404).body(new FailureBody<>(Map.of("code", "404", "message", "user not found")));
     }
@@ -105,8 +105,7 @@ public class AdminController {
     @GetMapping(value = "/getService/{id}")
     public ResponseEntity<Object> getService(@PathVariable Long id) {
         Optional<Service> serviceById = adminService.findServiceById(id);
-        return serviceById.<ResponseEntity<Object>>map(service ->
-                        ResponseEntity.ok(Map.of("code", "200", "service", service)))
+        return serviceById.<ResponseEntity<Object>>map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(404)
                         .body(Map.of("code", "404", "message", "service not found")));
     }
@@ -115,7 +114,7 @@ public class AdminController {
     public ResponseEntity<Object> grantingServiceForUser(@RequestBody UserIdServiceIdModel userIdServiceId) {
         try {
             adminService.grantingServiceForUser(userIdServiceId.getServiceId(), userIdServiceId.getUserId());
-            return ResponseEntity.ok(Map.of("code","200","message","permission was granted to the intended user"));
+            return ResponseEntity.ok(new SuccessBody<>(Map.of("code","200","message","permission was granted to the intended user")));
         }catch (RuntimeException e){
             return ResponseEntity.status(404).body(new FailureBody<>(Map.of("code","404","message",e.getMessage())));
         }
@@ -125,7 +124,7 @@ public class AdminController {
     public ResponseEntity<Object> revokingServiceForUser(@RequestBody UserIdServiceIdModel userIdServiceId) {
         try {
             adminService.revokingServiceForUser(userIdServiceId.getServiceId(), userIdServiceId.getUserId());
-            return ResponseEntity.ok(Map.of("code","200","message","permission was revoked to the intended user"));
+            return ResponseEntity.ok(new SuccessBody<>(Map.of("code","200","message","permission was revoked to the intended user")));
         }catch (RuntimeException e){
             return ResponseEntity.status(404).body(new FailureBody<>(Map.of("code","404","message",e.getMessage())));
         }
@@ -135,7 +134,7 @@ public class AdminController {
     public ResponseEntity<Object> activeService(@RequestBody ServiceActivationDateModel sadm,@RequestParam Long serviceId){
         try{
             ServiceActivationDateModel model = adminService.activateService(serviceId, sadm);
-            return ResponseEntity.ok(new SuccessBody<>(Map.of("code","200","ServiceActivationDateModel",model)));
+            return ResponseEntity.ok(new SuccessBody<>(model));
         }catch (RuntimeException e){
             return ResponseEntity.status(404).body(new FailureBody<>(Map.of("code","400","message",e.getMessage())));
         }
